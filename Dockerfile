@@ -21,6 +21,7 @@ VOLUME /var/log/squid3
 
 # Prepare configs and executable
 ADD squid.conf /etc/squid3/squid.conf
+ADD baddomains.txt /etc/squid3/baddomains.txt
 #RUN chmod +x /usr/local/bin/run
 ADD init /init
 RUN chmod +x /init
