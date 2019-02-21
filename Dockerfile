@@ -13,6 +13,10 @@ RUN apt-get update \
     apache2-utils \
  && rm -rf /var/lib/apt/lists/*
 
+RUN useradd -ms /bin/bash proxy
+RUN groupadd proxy
+RUN usermod -aG proxy proxy
+
 COPY squid.conf /etc/squid/squid.conf
 COPY baddomains.txt /etc/squid/baddomains.txt
 
