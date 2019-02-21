@@ -1,32 +1,21 @@
-FROM ubuntu:trusty
-MAINTAINER  Abe Tobing <abedzilla@gmail.com>
+FROM ubuntu:bionic-20181204
+LABEL maintainer="abedzilla@gmail.com"
 
-VOLUME /var/cache/squid3
+ENV SQUID_VERSION=3.5.27 \
+    SQUID_CACHE_DIR=/var/spool/squid \
+    SQUID_LOG_DIR=/var/log/squid \
+    SQUID_USER=proxy
+    SQUID_AUTH_USER=abe
+    SQUID_AUTH_PASSWORD=asdfasdf
 
-RUN apt-get -qqy update
-RUN apt-get -qqy upgrade
-RUN apt-get -qqy install apache2-utils squid3
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y squid=${SQUID_VERSION}* \
+ && rm -rf /var/lib/apt/lists/*
 
-# If you are prone to gouging your eyes out, do not read the following 2 lines
-RUN sed -i 's@#\tauth_param basic program /usr/lib/squid3/basic_ncsa_auth /usr/etc/passwd@auth_param basic program /usr/lib/squid3/basic_ncsa_auth /usr/etc/passwd\nacl ncsa_users proxy_auth REQUIRED@' /etc/squid3/squid.conf
-RUN sed -i 's@^http_access allow localhost$@\0\nhttp_access allow ncsa_users@' /etc/squid3/squid.conf
+COPY squid.conf /etc/squid/squid.conf
 
-RUN mkdir /usr/etc
+COPY entrypoint.sh /sbin/entrypoint.sh
+RUN chmod 755 /sbin/entrypoint.sh
 
-VOLUME /var/log/squid3
-VOLUME /var/cache/squid3
-
-# Initialize dynamic certs directory
-#RUN /usr/lib/squid3/ssl_crtd -c -s /var/lib/ssl_db
-#RUN chown -R proxy:proxy /var/lib/ssl_db
-
-# Prepare configs and executable
-ADD squid.conf /etc/squid3/squid.conf
-ADD baddomains.txt /etc/squid3/baddomains.txt
-#RUN chmod +x /usr/local/bin/run
-ADD init /init
-RUN chmod +x /init
-
-EXPOSE 8888
-
-CMD ["/init"]
+EXPOSE 8888/tcp
+ENTRYPOINT ["/sbin/entrypoint.sh"]
