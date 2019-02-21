@@ -14,6 +14,7 @@ RUN sed -i 's@^http_access allow localhost$@\0\nhttp_access allow ncsa_users@' /
 RUN mkdir /usr/etc
 
 VOLUME /var/log/squid3
+VOLUME /var/cache/squid3
 
 # Initialize dynamic certs directory
 #RUN /usr/lib/squid3/ssl_crtd -c -s /var/lib/ssl_db
@@ -29,7 +30,3 @@ RUN chmod +x /init
 EXPOSE 8888
 
 CMD ["/init"]
-
-
-#EXPOSE 8888
-#CMD ["/usr/local/bin/run"]
