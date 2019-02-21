@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+useradd -r -u 1001 -g proxy proxy
+
 create_log_dir() {
   mkdir -p ${SQUID_LOG_DIR}
   chmod -R 755 ${SQUID_LOG_DIR}
