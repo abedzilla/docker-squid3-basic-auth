@@ -14,6 +14,5 @@ other Docker containers.
 Start Squid3 setting its hostname and container name:
 
 ```
-$ docker run -d -h proxy.docker.dev --name squid3 fgrehm/squid3-ssl:v20140809
+$ docker run --name squid3-with-basic-auth -d --restart=always --publish 8888:8888 --volume /opt/var/log/squid:/var/log/squid --volume /opt/etc/squid/squid.conf:/etc/squid/squid.conf abetobing/docker-squid3-basic-auth:latest
 ```
-
