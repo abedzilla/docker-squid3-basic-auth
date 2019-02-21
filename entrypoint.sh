@@ -13,12 +13,13 @@ create_cache_dir() {
 }
 
 create_user() {
-  htpasswd -bc /usr/etc/passwd "${SQUID_AUTH_USER}" "${SQUID_AUTH_PASSWORD}"
+  htpasswd -bc /etc/passwd "${SQUID_AUTH_USER}" "${SQUID_AUTH_PASSWORD}"
   exec squid3 -N $*
 }
 
 create_log_dir
 create_cache_dir
+create_user
 
 # allow arguments to be passed to squid
 if [[ ${1:0:1} = '-' ]]; then
