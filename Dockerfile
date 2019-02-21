@@ -13,7 +13,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 COPY squid.conf /etc/squid/squid.conf
-COPY baddomains /etc/squid/baddomains.txt
+COPY baddomains.txt /etc/squid/baddomains.txt
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
