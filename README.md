@@ -24,5 +24,5 @@ $ docker run --name squid3-with-basic-auth -d --restart=always \
 ## Parameter
 
 Basic authentication user and password, default is proxy:secret.
-SQUID_AUTH_USER = proxy 
-SQUID_AUTH_PASSWORD = secret
+* SQUID_AUTH_USER = proxy 
+* SQUID_AUTH_PASSWORD = secret
